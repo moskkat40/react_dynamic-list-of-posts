@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/indent */
 import classNames from 'classnames';
 
 import 'bulma/css/bulma.css';
@@ -18,6 +20,7 @@ import { Comment } from './types/Comment';
 export const App = () => {
   const [users, setUsers] = useState([]);
   const [isUser, setIsUser] = useState(false);
+  const [userId, setUserId] = useState<number | null>(null);
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [currentPostId, setCurrentPostId] = useState(0);
@@ -38,31 +41,31 @@ export const App = () => {
       .finally(() => setLoading(''));
   }, []);
 
-  const getPostsByUserId = (id: number) => {
+  useEffect(() => {
+    if (userId) {
     setLoading('posts');
-    setIsUser(true);
 
-    return servicesPosts
-      .getPosts(id)
+    servicesPosts.getPosts(userId)
       .then(res => {
         setPosts(res);
         setIsError(false);
       })
       .catch(() => setIsError(true))
       .finally(() => setLoading(''));
-  };
+    }
+}, [userId]);
 
   const getCommentsByPostId = (postId: number) => {
     setLoading('comments');
     setCurrentPostId(postId);
 
-    servicesComments
+    return servicesComments
       .getComments(postId)
-      .catch(() => setIsError(true))
       .then(res => {
         setComments(res);
         setIsError(false);
       })
+      .catch(() => setIsError(true))
       .finally(() => setLoading(''));
   };
 
@@ -80,7 +83,7 @@ export const App = () => {
   const deleteComment = (commentId: number) => {
     servicesComments
       .deleteComment(commentId)
-      .then(res =>
+      .then(() =>
         setComments(currentComments =>
           currentComments.filter(comment => comment.id !== commentId),
         ),
@@ -90,8 +93,6 @@ export const App = () => {
   const currentPost = useMemo(() => {
     return posts.find((post: Post) => post.id === currentPostId);
   }, [currentPostId, posts]);
-
-  console.log(isError);
 
   return (
     <main className="section">
@@ -103,9 +104,8 @@ export const App = () => {
                 <UserSelector
                   users={users}
                   setIsUser={setIsUser}
-                  isUser={isUser}
-                  getPostsByUserId={getPostsByUserId}
                   setOpenPostId={setOpenPostId}
+                  setUserId={setUserId}
                 />
               </div>
               {loading === 'users' && <Loader />}
@@ -133,7 +133,7 @@ export const App = () => {
                     data-cy="NoPostsYet"
                   >
                       No posts yet
-                  </div>
+                    </div>
                 )}
 
                 {isUser &&

@@ -5,47 +5,35 @@ import { User } from '../types/User';
 type Props = {
   users: User[];
   setIsUser: (a: boolean) => void;
-  getPostsByUserId: (a: number) => void;
+  setUserId: (a: number | null) => void;
   setOpenPostId: (a: null | number) => void;
-  isUser: boolean;
 };
 
 export const UserSelector: React.FC<Props> = ({
   users,
   setIsUser,
-  getPostsByUserId,
+  setUserId,
   setOpenPostId,
-  isUser,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [isActiveUserId, setIsActiveUserId] = useState(0);
   const [userName, setUserName] = useState('');
 
   const handleClickDropdown = () => {
-    if (!isActive) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+    setIsActive(!isActive);
   };
 
   const handleShowUsersPosts = (
     event: React.MouseEvent<HTMLAnchorElement>,
     userId: number,
   ) => {
-
-    if (!userId) {
-      return;
-    }
-
     event.preventDefault();
     setOpenPostId(null);
     setIsActiveUserId(userId);
     setIsUser(true);
-    getPostsByUserId(userId);
+    setUserId(userId);
 
     setUserName(event.currentTarget.innerHTML);
-
     setIsActive(false);
   };
 

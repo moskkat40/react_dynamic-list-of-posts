@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Loader } from './Loader';
 import { NewCommentForm } from './NewCommentForm';
 import { Comment } from '../types/Comment';
@@ -28,12 +28,11 @@ export const PostDetails: React.FC<Props> = ({
   isError,
 }) => {
   if (!currentPost) {
-    return;
+    return null;
   }
 
   const handleOpenWritePost = () => {
     setIsWritePostButton(true);
-    console.log('true');
   };
 
   const handleDeleteComment = (postId: number) => {
@@ -107,7 +106,6 @@ export const PostDetails: React.FC<Props> = ({
             <NewCommentForm
               addComment={addComment}
               postId={currentPost.id}
-              comments={comments}
               loadingAddNewComment={loadingAddNewComment}
             />
           ) : (

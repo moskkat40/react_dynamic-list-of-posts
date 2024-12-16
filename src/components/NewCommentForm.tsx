@@ -26,7 +26,7 @@ export const NewCommentForm: React.FC<Props> = ({
     setBody('');
   }
 
-  function resetAllFeilds() {
+  function resetAllFields() {
     setName('');
     setEmail('');
     setBody('');
@@ -193,7 +193,7 @@ export const NewCommentForm: React.FC<Props> = ({
           <button
             type="reset"
             className="button is-link is-light"
-            onClick={resetAllFeilds}
+            onClick={resetAllFields}
           >
             Clear
           </button>
