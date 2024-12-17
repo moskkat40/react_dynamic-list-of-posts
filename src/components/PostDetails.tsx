@@ -49,57 +49,52 @@ export const PostDetails: React.FC<Props> = ({
 
           <p data-cy="PostBody">{currentPost.body}</p>
         </div>
-        {isError && (
-          <div className="notification is-danger" data-cy="CommentsError">
-            Something went wrong
-          </div>
-        )}
         {loadingComments && <Loader />}
-        {!loadingComments &&
-          (comments.length === 0 ? (
+        <div className="block">
+          {isError && (
+            <div className="notification is-danger" data-cy="CommentsError">
+              Something went wrong
+            </div>
+          )}
+          {!loadingComments && !isError && (
             <>
-              <p className="title is-4" data-cy="NoCommentsMessage">
-                No comments yet
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="block">
+              {comments.length === 0 ? (
+                <p className="title is-4" data-cy="NoCommentsMessage">
+                  No comments yet
+                </p>
+              ) : (
                 <p className="title is-4">Comments:</p>
-                {comments.map(comment => (
-                  <>
-                    <article
-                      key={comment.id}
-                      className="message is-small"
-                      data-cy="Comment"
-                    >
-                      <div className="message-header">
-                        <a
-                          href={`mailto:${comment.email}`}
-                          data-cy="CommentAuthor"
-                        >
-                          {comment.name}
-                        </a>
-                        <button
-                          data-cy="CommentDelete"
-                          type="button"
-                          className="delete is-small"
-                          aria-label="delete"
-                          onClick={() => handleDeleteComment(comment.id)}
-                        >
-                          delete button
-                        </button>
-                      </div>
+              )}
 
-                      <div className="message-body" data-cy="CommentBody">
-                        {comment.body}
-                      </div>
-                    </article>
-                  </>
-                ))}
-              </div>
+              {comments.map(comment => (
+                <article
+                  key={comment.id}
+                  className="message is-small"
+                  data-cy="Comment"
+                >
+                  <div className="message-header">
+                    <a href={`mailto:${comment.email}`} data-cy="CommentAuthor">
+                      {comment.name}
+                    </a>
+                    <button
+                      data-cy="CommentDelete"
+                      type="button"
+                      className="delete is-small"
+                      aria-label="delete"
+                      onClick={() => handleDeleteComment(comment.id)}
+                    >
+                      delete button
+                    </button>
+                  </div>
+
+                  <div className="message-body" data-cy="CommentBody">
+                    {comment.body}
+                  </div>
+                </article>
+              ))}
             </>
-          ))}
+          )}
+        </div>
         {!loadingComments &&
           !isError &&
           (isWritePostButton ? (

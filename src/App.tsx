@@ -71,11 +71,13 @@ export const App = () => {
   const addComment = ({ name, email, body, postId }: Comment) => {
     setLoading('addComment');
 
-    servicesComments
+    return servicesComments
       .createComment({ name, email, body, postId })
       .then(newComment => {
         setComments(currentComments => [...currentComments, newComment]);
+        setIsError(false);
       })
+      .catch(() => setIsError(true))
       .finally(() => setLoading(''));
   };
 
