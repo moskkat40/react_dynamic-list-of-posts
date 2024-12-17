@@ -37,10 +37,17 @@ export const UserSelector: React.FC<Props> = ({
     setIsActive(false);
   };
 
+  const handleCloseDropdown = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setIsActive(false);
+    }
+  };
+
   return (
     <div
       data-cy="UserSelector"
       className={classNames('dropdown', { 'is-active': isActive })}
+      onBlur={handleCloseDropdown}
     >
       <div className="dropdown-trigger">
         <button

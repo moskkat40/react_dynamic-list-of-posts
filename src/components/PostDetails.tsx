@@ -54,7 +54,7 @@ export const PostDetails: React.FC<Props> = ({
             Something went wrong
           </div>
         )}
-        {loadingComments && isError && <Loader />}
+        {loadingComments && <Loader />}
         {!loadingComments &&
           (comments.length === 0 ? (
             <>

@@ -44,7 +44,6 @@ export const App = () => {
   useEffect(() => {
     if (userId) {
     setLoading('posts');
-
     servicesPosts.getPosts(userId)
       .then(res => {
         setPosts(res);
@@ -151,7 +150,6 @@ export const App = () => {
               </div>
             </div>
           </div>
-          {posts.length > 0 && openPostId && (
             <div
               data-cy="Sidebar"
               className={classNames(
@@ -159,7 +157,7 @@ export const App = () => {
                 'is-parent',
                 'is-8-desktop',
                 'Sidebar',
-                'Sidebar--open',
+                {'Sidebar--open': posts.length > 0 && openPostId}
               )}
             >
               <div className="tile is-child box is-success ">
@@ -176,7 +174,6 @@ export const App = () => {
                 />
               </div>
             </div>
-          )}
         </div>
       </div>
     </main>
